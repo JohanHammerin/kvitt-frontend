@@ -295,15 +295,11 @@ export default function Home() {
     let description;
     if (isKvitt) {
       description = "Ditt saldo täcker alla utgifter i historiken.";
-    } else description = "Du har obetalda utgifter!";
-
-    /*
     } else if (kvittStatus.expensesBack === 1) {
       description = `Du är back 1 utgift.`;
     } else {
       description = `Du är back ${kvittStatus.expensesBack} utgifter.`;
     }
-      */
 
     return (
       <div
