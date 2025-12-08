@@ -233,7 +233,6 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Modals - Återanvänder samma komponent! */}
       <TransactionModal
         isOpen={showIncomeModal}
         onClose={() => setShowIncomeModal(false)}
