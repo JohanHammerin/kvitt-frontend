@@ -1,5 +1,11 @@
 import { X } from "lucide-react";
 
+// Helper för att formatera LocalDateTime till YYYY-MM-DD
+const formatDateForInput = (dateTimeString: string) => {
+  if (!dateTimeString) return "";
+  return dateTimeString.split("T")[0];
+};
+
 interface TransactionModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -7,9 +13,12 @@ interface TransactionModalProps {
   isExpense: boolean;
   title: string;
   amount: string;
+  isSubmitting: boolean;
+  isEditing: boolean;
+  dateTime: string;
   onTitleChange: (value: string) => void;
   onAmountChange: (value: string) => void;
-  isSubmitting: boolean;
+  onDateTimeChange: (value: string) => void;
 }
 
 export function TransactionModal({
@@ -19,36 +28,47 @@ export function TransactionModal({
   isExpense,
   title,
   amount,
+  isSubmitting,
+  isEditing,
+  dateTime,
   onTitleChange,
   onAmountChange,
-  isSubmitting,
+  onDateTimeChange,
 }: TransactionModalProps) {
   if (!isOpen) return null;
 
   const typeText = isExpense ? "utgift" : "inkomst";
+  const headerText = isEditing
+    ? `Redigera ${typeText}`
+    : `Lägg till ${typeText}`;
+
   const btnColor = isExpense
     ? "bg-red-600 hover:bg-red-700"
     : "bg-blue-600 hover:bg-blue-700";
   const focusRing = isExpense ? "focus:ring-red-500" : "focus:ring-blue-500";
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-md w-full p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">
-            Lägg till {typeText}
-          </h3>
+    /* HÄR ÄR ÄNDRINGEN: 
+       'bg-black/40' gör den svart med 40% opacitet.
+       'backdrop-blur-md' suddar ut allt bakom modalen. 
+    */
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center p-4 z-50 transition-all">
+      {/* Själva modal-boxen */}
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 border border-white/20 animate-in fade-in zoom-in duration-200">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-bold text-gray-900">{headerText}</h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="p-1 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <X className="h-5 w-5" />
+            <X className="h-6 w-6" />
           </button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
+          {/* Titel */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
               Titel *
             </label>
             <input
@@ -56,12 +76,13 @@ export function TransactionModal({
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               placeholder="T.ex. Lön, Hyra, etc."
-              className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 ${focusRing} focus:border-transparent`}
+              className={`w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 ${focusRing} focus:border-transparent outline-none transition-all`}
             />
           </div>
 
+          {/* Belopp */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
               Belopp (kr) *
             </label>
             <input
@@ -71,15 +92,30 @@ export function TransactionModal({
               placeholder="0"
               min="0"
               step="0.01"
-              className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 ${focusRing} focus:border-transparent`}
+              className={`w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 ${focusRing} focus:border-transparent outline-none transition-all`}
             />
           </div>
+
+          {/* Datum (Endast vid redigering) */}
+          {isEditing && (
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Datum
+              </label>
+              <input
+                type="date"
+                value={formatDateForInput(dateTime)}
+                onChange={(e) => onDateTimeChange(e.target.value)}
+                className={`w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 ${focusRing} focus:border-transparent outline-none transition-all`}
+              />
+            </div>
+          )}
         </div>
 
-        <div className="flex justify-end space-x-3 mt-6">
+        <div className="flex justify-end space-x-3 mt-8">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg transition duration-200"
+            className="px-5 py-2.5 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-200"
             disabled={isSubmitting}
           >
             Avbryt
@@ -87,9 +123,13 @@ export function TransactionModal({
           <button
             onClick={onSubmit}
             disabled={isSubmitting}
-            className={`px-4 py-2 text-white rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${btnColor}`}
+            className={`px-6 py-2.5 text-white font-bold rounded-xl shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${btnColor} active:scale-95`}
           >
-            {isSubmitting ? "Lägger till..." : `Lägg till ${typeText}`}
+            {isSubmitting
+              ? "Sparar..."
+              : isEditing
+              ? "Spara ändringar"
+              : `Lägg till ${typeText}`}
           </button>
         </div>
       </div>

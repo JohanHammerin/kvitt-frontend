@@ -1,12 +1,19 @@
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Trash2, Pencil } from "lucide-react";
+
+// 1. Skapa ett interface för props, som inkluderar den nya funktionen.
+interface TransactionHistoryProps {
+  events: EventData[];
+  loading: boolean;
+  onDelete: (id: string) => void;
+  onEditClick: (event: EventData) => void; // Ny prop för att starta redigering
+}
 
 export function TransactionHistory({
   events,
   loading,
-}: {
-  events: EventData[];
-  loading: boolean;
-}) {
+  onDelete,
+  onEditClick, // Destructure den nya prop:en
+}: TransactionHistoryProps) {
   return (
     <div className="bg-white rounded-lg shadow-lg border p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
@@ -46,7 +53,7 @@ export function TransactionHistory({
                 </p>
               </div>
 
-              <div className="flex items-center space-x-4 ml-4">
+              <div className="flex items-center space-x-2 ml-4">
                 <p
                   className={`font-bold text-lg whitespace-nowrap 
                               ${
@@ -75,11 +82,34 @@ export function TransactionHistory({
                   </span>
                 )}
 
+                {/* Ikoner för trend */}
                 {event.expense ? (
                   <TrendingDown className="h-5 w-5 text-red-600 hidden sm:block" />
                 ) : (
                   <TrendingUp className="h-5 w-5 text-green-600 hidden sm:block" />
                 )}
+
+                {/* ✏️ REDIGERA-KNAPP */}
+                <button
+                  onClick={() => onEditClick(event)}
+                  className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-100 rounded-full transition-colors"
+                  title="Redigera transaktion"
+                >
+                  <Pencil className="h-5 w-5" />
+                </button>
+
+                {/* 🗑️ RADERA-KNAPP */}
+                <button
+                  onClick={() => {
+                    if (confirm("Är du säker på att du vill ta bort denna?")) {
+                      onDelete(event.id);
+                    }
+                  }}
+                  className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-100 rounded-full transition-colors"
+                  title="Ta bort transaktion"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </button>
               </div>
             </div>
           ))}

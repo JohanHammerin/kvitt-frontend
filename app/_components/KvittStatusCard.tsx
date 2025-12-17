@@ -34,16 +34,6 @@ export function KvittStatusCard({ status }: { status: KvittStatus | null }) {
       <div>
         <h3 className="text-xl font-bold">{title}</h3>
         <p className="text-sm">{description}</p>
-        {!isKvitt && (
-          <p className="text-xs font-semibold mt-1">
-            Senaste utgift som täcktes:{" "}
-            {new Date(status.lastKvittDate).toLocaleDateString("sv-SE", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </p>
-        )}
       </div>
     </div>
   );

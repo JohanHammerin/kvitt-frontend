@@ -1,4 +1,4 @@
-import { DollarSign, TrendingUp, TrendingDown } from "lucide-react";
+import { DollarSign, TrendingUp, TrendingDown, Trash } from "lucide-react";
 
 export function FinancialOverview({ data }: { data: FinancialData | null }) {
   if (!data) return null;
