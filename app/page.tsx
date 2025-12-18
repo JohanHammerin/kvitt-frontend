@@ -2,7 +2,7 @@
 
 import { useAuth } from "./context/page";
 import { useRouter } from "next/navigation";
-import { LogOut, User, Calendar, Bird } from "lucide-react";
+import { LogOut, User, Bird } from "lucide-react";
 import { useState, useEffect } from "react";
 
 import { FinancialOverview } from "./_components/FinancialOverview";
@@ -10,6 +10,7 @@ import { KvittStatusCard } from "./_components/KvittStatusCard";
 import { QuickActions } from "./_components/QuickActions";
 import { TransactionHistory } from "./_components/TransactionHistory";
 import { TransactionModal } from "./_components/TransactionModal";
+import useSound from "use-sound";
 
 interface EditableEventData extends EventData {
   // Notera: 'paid' är inte med här, då det styrs av backend.
@@ -18,6 +19,7 @@ interface EditableEventData extends EventData {
 export default function Home() {
   const { user, logout } = useAuth();
   const router = useRouter();
+  const [playChirp] = useSound("./bird-song.mp3", { volume: 0.5 });
 
   const [financialData, setFinancialData] = useState<FinancialData | null>(
     null
