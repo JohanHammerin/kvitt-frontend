@@ -19,7 +19,7 @@ interface EditableEventData extends EventData {
 export default function Home() {
   const { user, logout } = useAuth();
   const router = useRouter();
-  const [playChirp] = useSound("./bird-song.mp3", { volume: 0.5 });
+  const [playChirp] = useSound("/bird-song.mp3", { volume: 0.5 });
 
   const [financialData, setFinancialData] = useState<FinancialData | null>(
     null
@@ -195,6 +195,7 @@ export default function Home() {
       });
 
       if (response.ok) {
+        playChirp();
         handleModalClose();
         await fetchData();
       } else {
