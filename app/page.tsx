@@ -2,7 +2,7 @@
 
 import { useAuth } from "./context/page";
 import { useRouter } from "next/navigation";
-import { LogOut, User, Calendar } from "lucide-react";
+import { LogOut, User, Calendar, Bird } from "lucide-react";
 import { useState, useEffect } from "react";
 
 import { FinancialOverview } from "./_components/FinancialOverview";
@@ -298,7 +298,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Calendar className="h-8 w-8 text-blue-600 mr-3" />
+              <Bird className="h-8 w-8 text-blue-600 mr-3" />
               <h1 className="text-2xl font-bold text-gray-900">Kvitt</h1>
             </div>
             <div className="flex items-center space-x-4">
