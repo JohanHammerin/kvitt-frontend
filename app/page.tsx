@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "./context/page";
+import { useAuth } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 import { LogOut, User, Bird } from "lucide-react";
 import { useState, useEffect } from "react";

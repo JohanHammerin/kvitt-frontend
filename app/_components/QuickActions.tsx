@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 
 interface QuickActionsProps {
   onAddIncome: () => void;
@@ -7,30 +7,35 @@ interface QuickActionsProps {
 
 export function QuickActions({ onAddIncome, onAddExpense }: QuickActionsProps) {
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+    <div className="bg-white/60 backdrop-blur-md rounded-3xl shadow-sm border border-white/20 p-6 mb-8">
+      <h3 className="text-lg font-bold text-gray-900 mb-4 ml-1">
         Snabba åtgärder
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <button
           onClick={onAddIncome}
-          className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition duration-200 text-gray-600 hover:text-blue-700 flex items-center justify-center"
+          className="group p-5 bg-blue-50/50 border-2 border-dashed border-blue-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-300 flex items-center justify-between"
         >
-          <Plus className="h-5 w-5 mr-2" />
-          Lägg till inkomst
+          <div className="flex items-center">
+            <div className="bg-blue-600 p-2 rounded-xl mr-4 shadow-lg shadow-blue-200">
+              <ArrowUpRight className="h-5 w-5 text-white" />
+            </div>
+            <span className="font-bold text-blue-900">Lägg till inkomst</span>
+          </div>
+          <Plus className="h-6 w-6 text-blue-400 group-hover:text-blue-600 transition-colors" />
         </button>
+
         <button
           onClick={onAddExpense}
-          className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-red-500 hover:bg-red-50 transition duration-200 text-gray-600 hover:text-red-700 flex items-center justify-center"
+          className="group p-5 bg-red-50/50 border-2 border-dashed border-red-200 rounded-2xl hover:border-red-500 hover:bg-red-50 transition-all duration-300 flex items-center justify-between"
         >
-          <Plus className="h-5 w-5 mr-2" />
-          Lägg till utgift
-        </button>
-        <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition duration-200 text-gray-600 hover:text-green-700">
-          📊 Visa statistik
-        </button>
-        <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition duration-200 text-gray-600 hover:text-purple-700">
-          📋 Hantera event
+          <div className="flex items-center">
+            <div className="bg-red-600 p-2 rounded-xl mr-4 shadow-lg shadow-red-200">
+              <ArrowDownLeft className="h-5 w-5 text-white" />
+            </div>
+            <span className="font-bold text-red-900">Lägg till utgift</span>
+          </div>
+          <Plus className="h-6 w-6 text-red-400 group-hover:text-red-600 transition-colors" />
         </button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { AuthProvider } from "./context/page"; // 👈 Ändra sökvägen här
+import { AuthProvider } from "./context/AuthContext"; // 👈 Ändra sökvägen här
 import "./globals.css";
 
 export const metadata = {
