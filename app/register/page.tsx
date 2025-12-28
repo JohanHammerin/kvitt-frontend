@@ -33,7 +33,7 @@ export default function Register() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/v1/kvittUser/create",
+        "https://kvitt.onrender.com/api/v1/kvittUser/create",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

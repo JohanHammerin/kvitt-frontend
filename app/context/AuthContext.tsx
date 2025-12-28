@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // TODO: Byt ut hårdkodad URL mot miljövariabel i produktion
       const response = await fetch(
-        "http://localhost:8080/api/v1/kvittUser/login",
+        "https://kvitt.onrender.com/api/v1/kvittUser/login",
         {
           method: "POST",
           headers: {
