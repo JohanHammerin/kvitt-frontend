@@ -42,7 +42,7 @@ export default function Login() {
 
   return (
     // Lagt till en snygg gradient bakgrund som matchar din app
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-blue-100 via-white to-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,var(--tw-gradient-stops))] from-blue-100 via-white to-gray-100 flex items-center justify-center p-4">
       {/* Container med samma design-språk som dina modaler */}
       <div className="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/20 animate-in fade-in zoom-in duration-300">
         <div className="text-center mb-10">

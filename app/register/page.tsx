@@ -59,7 +59,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-blue-100 via-white to-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,var(--tw-gradient-stops))] from-blue-100 via-white to-gray-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/20 animate-in fade-in zoom-in duration-300">
         <div className="text-center mb-10">
           <div className="flex justify-center mb-4">

@@ -1,10 +1,5 @@
 import { Plus, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 
-interface QuickActionsProps {
-  onAddIncome: () => void;
-  onAddExpense: () => void;
-}
-
 export function QuickActions({ onAddIncome, onAddExpense }: QuickActionsProps) {
   return (
     <div className="bg-white/60 backdrop-blur-md rounded-3xl shadow-sm border border-white/20 p-6 mb-8">

@@ -27,7 +27,7 @@ export function KvittStatusCard({ status }: { status: KvittStatus | null }) {
       <div
         className={`p-3 rounded-full ${
           isKvitt ? "bg-green-600" : "bg-red-600"
-        } flex-shrink-0`}
+        } shrink-0`}
       >
         {icon}
       </div>

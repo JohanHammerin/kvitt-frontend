@@ -1,25 +1,9 @@
 import { X } from "lucide-react";
 
-// Helper för att formatera LocalDateTime till YYYY-MM-DD
 const formatDateForInput = (dateTimeString: string) => {
   if (!dateTimeString) return "";
   return dateTimeString.split("T")[0];
 };
-
-interface TransactionModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: () => void;
-  isExpense: boolean;
-  title: string;
-  amount: string;
-  isSubmitting: boolean;
-  isEditing: boolean;
-  dateTime: string;
-  onTitleChange: (value: string) => void;
-  onAmountChange: (value: string) => void;
-  onDateTimeChange: (value: string) => void;
-}
 
 export function TransactionModal({
   isOpen,
@@ -48,10 +32,6 @@ export function TransactionModal({
   const focusRing = isExpense ? "focus:ring-red-500" : "focus:ring-blue-500";
 
   return (
-    /* HÄR ÄR ÄNDRINGEN: 
-       'bg-black/40' gör den svart med 40% opacitet.
-       'backdrop-blur-md' suddar ut allt bakom modalen. 
-    */
     <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center p-4 z-50 transition-all">
       {/* Själva modal-boxen */}
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 border border-white/20 animate-in fade-in zoom-in duration-200">

@@ -1,18 +1,10 @@
 import { TrendingUp, TrendingDown, Trash2, Pencil } from "lucide-react";
 
-// 1. Skapa ett interface för props, som inkluderar den nya funktionen.
-interface TransactionHistoryProps {
-  events: EventData[];
-  loading: boolean;
-  onDelete: (id: string) => void;
-  onEditClick: (event: EventData) => void; // Ny prop för att starta redigering
-}
-
 export function TransactionHistory({
   events,
   loading,
   onDelete,
-  onEditClick, // Destructure den nya prop:en
+  onEditClick,
 }: TransactionHistoryProps) {
   return (
     <div className="bg-white rounded-lg shadow-lg border p-6">
@@ -82,14 +74,14 @@ export function TransactionHistory({
                   </span>
                 )}
 
-                {/* Ikoner för trend */}
+                {/* Ikoner för inkomst/utgift */}
                 {event.expense ? (
                   <TrendingDown className="h-5 w-5 text-red-600 hidden sm:block" />
                 ) : (
                   <TrendingUp className="h-5 w-5 text-green-600 hidden sm:block" />
                 )}
 
-                {/* ✏️ REDIGERA-KNAPP */}
+                {/* REDIGERA-KNAPP */}
                 <button
                   onClick={() => onEditClick(event)}
                   className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-100 rounded-full transition-colors"
@@ -98,7 +90,7 @@ export function TransactionHistory({
                   <Pencil className="h-5 w-5" />
                 </button>
 
-                {/* 🗑️ RADERA-KNAPP */}
+                {/* RADERA-KNAPP */}
                 <button
                   onClick={() => {
                     if (confirm("Är du säker på att du vill ta bort denna?")) {
