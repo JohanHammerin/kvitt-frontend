@@ -1,4 +1,4 @@
-import { AuthProvider } from "./context/AuthContext"; // 👈 Ändra sökvägen här
+import { AuthProvider } from "./context/AuthContext";
 import "./globals.css";
 
 export const metadata = {
@@ -12,8 +12,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="sv">
-      <body>
+    <html lang="sv" className="light" style={{ colorScheme: "light" }}>
+      <head>
+        {/* Tvingar mobila webbläsare att endast använda ljust läge */}
+        <meta name="color-scheme" content="light only" />
+      </head>
+      <body className="bg-white text-black antialiased">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
