@@ -53,7 +53,6 @@ export default function Home() {
       return;
     }
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, router]);
 
   const fetchData = async () => {
@@ -61,9 +60,13 @@ export default function Home() {
     setLoading(true);
 
     try {
+      const token = localStorage.getItem("jwtToken");
       const fetchOptions: RequestInit = {
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       };
 
       const [incomeRes, expenseRes, kvittRes, eventsRes] = await Promise.all([
@@ -89,8 +92,6 @@ export default function Home() {
         const incomeData = await incomeRes.json();
         const expenseData = await expenseRes.json();
 
-        // Fix: Hantera både om backend skickar ett objekt { totalIncome: X }
-        // eller bara ett rent nummer X.
         const totalIncome =
           typeof incomeData === "object"
             ? parseFloat(incomeData.totalIncome || 0)
@@ -119,13 +120,11 @@ export default function Home() {
       if (eventsRes.ok) {
         const eventsData = await eventsRes.json();
 
-        // ÄNDRING: Mappa direkt på eventsData då det är en array
         let formattedEvents: EventData[] = eventsData.map((event: any) => ({
           ...event,
           amount: parseFloat(event.amount),
         }));
 
-        // Sortering (nyast först)
         formattedEvents = formattedEvents.sort((a: EventData, b: EventData) => {
           const dateA = new Date(a.dateTime).getTime();
           const dateB = new Date(b.dateTime).getTime();
@@ -168,27 +167,27 @@ export default function Home() {
       : `${API_BASE_URL}/create`;
 
     try {
+      const token = localStorage.getItem("jwtToken");
       const transactionData = {
         id: isEditing ? editingEvent?.id : undefined,
         title,
         amount: amount,
         expense: isExpense,
-
-        // Datum logik: använder datum från state om det finns, annars nu.
         dateTime: isEditing
           ? editingEvent!.dateTime.length > 10
             ? editingEvent!.dateTime
             : `${editingEvent!.dateTime}T00:00:00`
           : new Date().toISOString(),
-
         username: user.username,
         accountType: "Vardag",
       };
 
       const response = await fetch(endpoint, {
         method: method,
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(transactionData),
       });
 
@@ -210,9 +209,12 @@ export default function Home() {
 
   const handleDeleteEvent = async (id: string) => {
     try {
+      const token = localStorage.getItem("jwtToken");
       const response = await fetch(`${API_BASE_URL}/delete?id=${id}`, {
         method: "DELETE",
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -229,7 +231,6 @@ export default function Home() {
     const eventWithPaid = event as EditableEventData;
     setEditingEvent(eventWithPaid);
 
-    // Fyll newIncome/newExpense med datan för att driva inputfälten
     const amountString = eventWithPaid.amount.toString();
     const data = { title: eventWithPaid.title, amount: amountString };
 
@@ -261,23 +262,17 @@ export default function Home() {
   const currentModalIsExpense = editingEvent?.expense ?? showExpenseModal;
   const currentModalData = currentModalIsExpense ? newExpense : newIncome;
 
-  // ⭐️ KORRIGERAD FUNKTION
   const handleInputChange = (
     field: "title" | "amount" | "dateTime",
     value: string
   ) => {
-    // 1. Om vi redigerar (Editing Mode)
     if (isEditing) {
-      // Uppdaterar det temporära editingEvent state:t
       setEditingEvent((prev) => ({
         ...prev!,
         [field]: value,
       }));
     }
 
-    // 2. Om vi SKAPAR NY (Create Mode)
-    // Detta körs ALLTID för title/amount, även i redigeringsläget,
-    // för att hålla newIncome/newExpense synkade med inputfältens värden.
     if (field === "title" || field === "amount") {
       const updateFunc = currentModalIsExpense ? setNewExpense : setNewIncome;
       updateFunc(
@@ -288,9 +283,6 @@ export default function Home() {
           } as NewExpenseData | NewIncomeData)
       );
     }
-
-    // Notera: 'dateTime' ignoreras i Create Mode eftersom det fältet är dolt
-    // och vi använder new Date().toISOString() som standardvärde.
   };
 
   return (
@@ -341,11 +333,11 @@ export default function Home() {
 
           <QuickActions
             onAddIncome={() => {
-              handleModalClose(); // Säkerställ att redigering state är nollställt
+              handleModalClose();
               setShowIncomeModal(true);
             }}
             onAddExpense={() => {
-              handleModalClose(); // Säkerställ att redigering state är nollställt
+              handleModalClose();
               setShowExpenseModal(true);
             }}
           />
