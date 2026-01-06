@@ -12,9 +12,7 @@ import { TransactionHistory } from "./_components/TransactionHistory";
 import { TransactionModal } from "./_components/TransactionModal";
 import useSound from "use-sound";
 
-interface EditableEventData extends EventData {
-  // Notera: 'paid' är inte med här, då det styrs av backend.
-}
+interface EditableEventData extends EventData {}
 
 export default function Home() {
   const { user, logout } = useAuth();
@@ -376,7 +374,6 @@ export default function Home() {
           title={currentModalData.title}
           amount={currentModalData.amount}
           dateTime={editingEvent?.dateTime ?? new Date().toISOString()}
-          // Använd den korrigerade hanteringsfunktionen
           onTitleChange={(val) => handleInputChange("title", val)}
           onAmountChange={(val) => handleInputChange("amount", val)}
           onDateTimeChange={(val) => handleInputChange("dateTime", val)}
